@@ -1,0 +1,27 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# Reproduce of the power curve
+
+prob <- seq(0.4,1,0.01)
+df <- data.frame(prob, p_bin=1-pbinom(68, size=100, prob=prob))
+df1 <- data.frame(prob, p_bin=1-pbinom(72, size=100, prob=prob))
+
+plot(df$prob, df$p_bin, type="l", xlab = "p", ylab = "alpha(p)", main = "Power Curve")
+lines(df1$prob, df1$p_bin)
+lines(0.6+c(0,0.2,0.2,0,0),0.05+c(0,0,0.9,0.9,0))
+```
+```{r}
+# Use pwr function
+
+library(pwr)
+pwr.p.test(h = ES.h(p1 = 0.8, p2 = 0.6),
+           sig.level = 0.05,
+           power = 0.95,
+           alternative = "greater")
+```
+
